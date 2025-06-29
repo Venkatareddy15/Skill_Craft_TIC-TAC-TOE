@@ -1,0 +1,341 @@
+:root {
+    --primary-color: #64b5f6; /* Lighter primary color */
+    --secondary-color: #e57373; /* Lighter secondary color */
+    --background-color: #343a40; /* Dark background color */
+    --border-radius: 10px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --text-color: #ecf0f1; /* Change text color to light gray */
+    --winning-color: #2ecc71;
+    --glow-color: rgba(100, 181, 246, 0.8); /* Enhance glow color */
+    --border-color: #ddd; /* Add border color variable */
+}
+
+body {
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%); /* Use a darker, more subtle gradient */
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: var(--text-color);
+    animation: gradientAnimation 10s ease infinite, fadeIn 1s ease-in-out; /* Add background and fade-in animations */
+    background-size: 200% 200%;
+    opacity: 0; /* Initially hide the body */
+    animation-fill-mode: forwards; /* Keep the final state of the animation */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cdefs%3E%3Cpattern id='noise' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Crect width='100' height='100' fill='black'/%3E%3Ctext x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='20' fill='rgba(255,255,255,0.05)'%3E%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%' height='100%' fill='url(%23noise)'/%3E%3C/svg%3E"); /* Add subtle noise texture */
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.container {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(52, 73, 94, 0.9); /* Darken container background */
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhance shadow */
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color); /* Add border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+    animation: slideIn 0.8s ease-out forwards; /* Add slide-in animation */
+    transform: translateY(-50px); /* Initially position off-screen */
+    opacity: 0;
+}
+
+.container:hover {
+    transform: translateY(-5px); /* Add hover effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px auto;
+    width: 300px;
+    background: rgba(52, 73, 94, 0.8); /* Darken board background */
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color); /* Add border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition */
+    animation: slideIn 1s ease-out forwards; /* Add slide-in animation */
+    transform: translateY(-50px); /* Initially position off-screen */
+    opacity: 0;
+}
+
+.board:hover {
+    transform: translateY(-3px); /* Add hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.cell {
+    background: #546e7a; /* Darken cell background */
+    border: 1px solid var(--border-color); /* Add border */
+    height: 100px;
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Add subtle 3D effect */
+    transition: all 0.3s ease;
+    position: relative;
+    font-family: 'Segoe UI', system-ui, sans-serif; /* Use modern font */
+    font-weight: bold;
+    text-align: center;
+}
+
+.cell:hover {
+    background: #577590;
+    transform: scale(1.1); /* Add scaling effect */
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.4), 0 0 15px var(--glow-color); /* Enhance glow and shadow */
+}
+
+.cell[data-symbol="X"] {
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(74, 144, 226, 0.3);
+}
+
+.cell[data-symbol="O"] {
+    color: var(--secondary-color);
+    text-shadow: 2px 2px 4px rgba(246, 76, 114, 0.3);
+}
+
+.cell[data-symbol="X"]::before,
+.cell[data-symbol="O"]::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-mode {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); /* Add gradient background */
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--box-shadow);
+    font-family: 'Segoe UI', system-ui, sans-serif; /* Use modern font */
+}
+
+button:hover {
+    transform: translateY(-5px) scale(1.05); /* Add scaling effect */
+    box-shadow: 0 8px 16px rgba(74, 144, 226, 0.3), 0 0 15px var(--glow-color); /* Enhance shadow and glow */
+}
+
+#status {
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #ecf0f1; /* Ensure status text is visible on dark background */
+    padding: 15px;
+    border-radius: var(--border-radius);
+    background: rgba(0, 0, 0, 0.7); /* Adjust background for better readability */
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.move-animation {
+    animation: zoomIn 0.3s ease-out; /* Improve move animation */
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+select {
+    border: 1px solid var(--border-color); /* Add border */
+    padding: 8px;
+    font-size: 16px;
+    margin: 10px;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background: white;
+    color: var(--primary-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+select:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .board {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .cell {
+        height: 80px;
+        font-size: 40px;
+    }
+}
+
+.winning-cell {
+    background: var(--winning-color);
+    color: white;
+    transition: box-shadow 0.5s ease-in-out; /* Add transition to winning cell */
+    animation: winner 1s ease infinite;
+    box-shadow: 0 0 20px var(--winning-color);
+}
+
+@keyframes winner {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+
+#difficultySelect {
+    border: 1px solid var(--border-color); /* Add border */
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background-color: #fff;
+    color: var(--primary-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+#difficultySelect:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px; /* Increase margin for better spacing */
+    padding: 10px; /* Add padding for better aesthetics */
+    font-size: 14px;
+    font-family: 'Segoe UI', system-ui, sans-serif; /* Use modern font */
+    color: var(--primary-color); /* Change text color to primary color */
+    background-color: rgba(74, 144, 226, 0.1); /* Change background color to primary color with transparency */
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease; /* Add smooth transition */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+footer:hover {
+    background-color: rgba(74, 144, 226, 0.2); /* Darken background on hover */
+}
+
+#scoreTable {
+    width: 300px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all 0.3s ease; /* Add transition for smooth effects */
+    font-family: 'Segoe UI', system-ui, sans-serif; /* Use modern font */
+    color: var(--text-color); /* Ensure text color is consistent */
+}
+
+#scoreTable:hover {
+    transform: translateY(-5px); /* Add hover effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+#scoreTable th,
+#scoreTable td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Add transition for row hover effect */
+}
+
+#scoreTable th {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); /* Add gradient background */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#scoreTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#scoreTable tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.1); /* Use a transparent white for odd rows */
+}
+
+#scoreTable tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Use a slightly darker transparent white on hover */
+    color: var(--primary-color); /* Use primary color for text on hover */
+    transform: scale(1.02); /* Add scaling effect on hover */
+}
